@@ -1,24 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_router.dart';
+part of 'auth_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appRouterHash() => r'9b213e801a71c2e67d52f39b1c501fa69eff0bbd';
+String _$authNotifierHash() => r'a0b8605d1a889f937283c627e6a16c9c4d248448';
 
-/// See also [appRouter].
-@ProviderFor(appRouter)
-final appRouterProvider = AutoDisposeProvider<GoRouter>.internal(
-  appRouter,
-  name: r'appRouterProvider',
+/// See also [AuthNotifier].
+@ProviderFor(AuthNotifier)
+final authNotifierProvider =
+    AsyncNotifierProvider<AuthNotifier, AuthState>.internal(
+  AuthNotifier.new,
+  name: r'authNotifierProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appRouterHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AppRouterRef = AutoDisposeProviderRef<GoRouter>;
+typedef _$AuthNotifier = AsyncNotifier<AuthState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
