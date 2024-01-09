@@ -22,17 +22,17 @@ class FirebaseAuthDatasource implements AuthDataSource {
 
   @override
   Future<void> sendVerificationCode({required String phoneNumber}) async {
-    await fbAuth.verifyPhoneNumber(
-        phoneNumber: '+82${phoneNumber}',
-        verificationCompleted: (PhoneAuthCredential credential) async {},
-        verificationFailed: (FirebaseAuthException e) {
-          throw e;
-        },
-        codeSent: (String verificationId, int? resendToken) async {
-          // 인증 메세지 전송에 성공한 경우
-          completer.complete(verificationId);
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {});
+    //   await fbAuth.verifyPhoneNumber(
+    //       phoneNumber: '+82${phoneNumber}',
+    //       verificationCompleted: (PhoneAuthCredential credential) async {},
+    //       verificationFailed: (FirebaseAuthException e) {
+    //         throw e;
+    //       },
+    //       codeSent: (String verificationId, int? resendToken) async {
+    //         // 인증 메세지 전송에 성공한 경우
+    //         completer.complete(verificationId);
+    //       },
+    //       codeAutoRetrievalTimeout: (String verificationId) {});
   }
 }
 
