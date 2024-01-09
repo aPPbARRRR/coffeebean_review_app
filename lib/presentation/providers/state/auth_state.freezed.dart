@@ -19,22 +19,22 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unAuthenticated,
-    required TResult Function() authenticated,
-    required TResult Function() authenticatedWithInfo,
+    required TResult Function(String uid) authenticated,
+    required TResult Function(AppUser appUser) authenticatedWithInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unAuthenticated,
-    TResult? Function()? authenticated,
-    TResult? Function()? authenticatedWithInfo,
+    TResult? Function(String uid)? authenticated,
+    TResult? Function(AppUser appUser)? authenticatedWithInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unAuthenticated,
-    TResult Function()? authenticated,
-    TResult Function()? authenticatedWithInfo,
+    TResult Function(String uid)? authenticated,
+    TResult Function(AppUser appUser)? authenticatedWithInfo,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,8 +127,8 @@ class _$UnAuthenticatedImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unAuthenticated,
-    required TResult Function() authenticated,
-    required TResult Function() authenticatedWithInfo,
+    required TResult Function(String uid) authenticated,
+    required TResult Function(AppUser appUser) authenticatedWithInfo,
   }) {
     return unAuthenticated();
   }
@@ -137,8 +137,8 @@ class _$UnAuthenticatedImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unAuthenticated,
-    TResult? Function()? authenticated,
-    TResult? Function()? authenticatedWithInfo,
+    TResult? Function(String uid)? authenticated,
+    TResult? Function(AppUser appUser)? authenticatedWithInfo,
   }) {
     return unAuthenticated?.call();
   }
@@ -147,8 +147,8 @@ class _$UnAuthenticatedImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unAuthenticated,
-    TResult Function()? authenticated,
-    TResult Function()? authenticatedWithInfo,
+    TResult Function(String uid)? authenticated,
+    TResult Function(AppUser appUser)? authenticatedWithInfo,
     required TResult orElse(),
   }) {
     if (unAuthenticated != null) {
@@ -202,6 +202,8 @@ abstract class _$$AuthenticatedImplCopyWith<$Res> {
   factory _$$AuthenticatedImplCopyWith(
           _$AuthenticatedImpl value, $Res Function(_$AuthenticatedImpl) then) =
       __$$AuthenticatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String uid});
 }
 
 /// @nodoc
@@ -211,6 +213,19 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
   __$$AuthenticatedImplCopyWithImpl(
       _$AuthenticatedImpl _value, $Res Function(_$AuthenticatedImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+  }) {
+    return _then(_$AuthenticatedImpl(
+      null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
@@ -218,58 +233,71 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
 class _$AuthenticatedImpl
     with DiagnosticableTreeMixin
     implements Authenticated {
-  const _$AuthenticatedImpl();
+  const _$AuthenticatedImpl(this.uid);
+
+  @override
+  final String uid;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState.authenticated()';
+    return 'AuthState.authenticated(uid: $uid)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'AuthState.authenticated'));
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState.authenticated'))
+      ..add(DiagnosticsProperty('uid', uid));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$AuthenticatedImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$AuthenticatedImpl &&
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, uid);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
+      __$$AuthenticatedImplCopyWithImpl<_$AuthenticatedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unAuthenticated,
-    required TResult Function() authenticated,
-    required TResult Function() authenticatedWithInfo,
+    required TResult Function(String uid) authenticated,
+    required TResult Function(AppUser appUser) authenticatedWithInfo,
   }) {
-    return authenticated();
+    return authenticated(uid);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unAuthenticated,
-    TResult? Function()? authenticated,
-    TResult? Function()? authenticatedWithInfo,
+    TResult? Function(String uid)? authenticated,
+    TResult? Function(AppUser appUser)? authenticatedWithInfo,
   }) {
-    return authenticated?.call();
+    return authenticated?.call(uid);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unAuthenticated,
-    TResult Function()? authenticated,
-    TResult Function()? authenticatedWithInfo,
+    TResult Function(String uid)? authenticated,
+    TResult Function(AppUser appUser)? authenticatedWithInfo,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
-      return authenticated();
+      return authenticated(uid);
     }
     return orElse();
   }
@@ -311,7 +339,12 @@ class _$AuthenticatedImpl
 }
 
 abstract class Authenticated implements AuthState {
-  const factory Authenticated() = _$AuthenticatedImpl;
+  const factory Authenticated(final String uid) = _$AuthenticatedImpl;
+
+  String get uid;
+  @JsonKey(ignore: true)
+  _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -320,6 +353,10 @@ abstract class _$$AuthenticatedWithInfoImplCopyWith<$Res> {
           _$AuthenticatedWithInfoImpl value,
           $Res Function(_$AuthenticatedWithInfoImpl) then) =
       __$$AuthenticatedWithInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AppUser appUser});
+
+  $AppUserCopyWith<$Res> get appUser;
 }
 
 /// @nodoc
@@ -329,6 +366,27 @@ class __$$AuthenticatedWithInfoImplCopyWithImpl<$Res>
   __$$AuthenticatedWithInfoImplCopyWithImpl(_$AuthenticatedWithInfoImpl _value,
       $Res Function(_$AuthenticatedWithInfoImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? appUser = null,
+  }) {
+    return _then(_$AuthenticatedWithInfoImpl(
+      null == appUser
+          ? _value.appUser
+          : appUser // ignore: cast_nullable_to_non_nullable
+              as AppUser,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppUserCopyWith<$Res> get appUser {
+    return $AppUserCopyWith<$Res>(_value.appUser, (value) {
+      return _then(_value.copyWith(appUser: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -336,60 +394,72 @@ class __$$AuthenticatedWithInfoImplCopyWithImpl<$Res>
 class _$AuthenticatedWithInfoImpl
     with DiagnosticableTreeMixin
     implements AuthenticatedWithInfo {
-  const _$AuthenticatedWithInfoImpl();
+  const _$AuthenticatedWithInfoImpl(this.appUser);
+
+  @override
+  final AppUser appUser;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState.authenticatedWithInfo()';
+    return 'AuthState.authenticatedWithInfo(appUser: $appUser)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-        .add(DiagnosticsProperty('type', 'AuthState.authenticatedWithInfo'));
+      ..add(DiagnosticsProperty('type', 'AuthState.authenticatedWithInfo'))
+      ..add(DiagnosticsProperty('appUser', appUser));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AuthenticatedWithInfoImpl);
+            other is _$AuthenticatedWithInfoImpl &&
+            (identical(other.appUser, appUser) || other.appUser == appUser));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, appUser);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AuthenticatedWithInfoImplCopyWith<_$AuthenticatedWithInfoImpl>
+      get copyWith => __$$AuthenticatedWithInfoImplCopyWithImpl<
+          _$AuthenticatedWithInfoImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unAuthenticated,
-    required TResult Function() authenticated,
-    required TResult Function() authenticatedWithInfo,
+    required TResult Function(String uid) authenticated,
+    required TResult Function(AppUser appUser) authenticatedWithInfo,
   }) {
-    return authenticatedWithInfo();
+    return authenticatedWithInfo(appUser);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unAuthenticated,
-    TResult? Function()? authenticated,
-    TResult? Function()? authenticatedWithInfo,
+    TResult? Function(String uid)? authenticated,
+    TResult? Function(AppUser appUser)? authenticatedWithInfo,
   }) {
-    return authenticatedWithInfo?.call();
+    return authenticatedWithInfo?.call(appUser);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unAuthenticated,
-    TResult Function()? authenticated,
-    TResult Function()? authenticatedWithInfo,
+    TResult Function(String uid)? authenticated,
+    TResult Function(AppUser appUser)? authenticatedWithInfo,
     required TResult orElse(),
   }) {
     if (authenticatedWithInfo != null) {
-      return authenticatedWithInfo();
+      return authenticatedWithInfo(appUser);
     }
     return orElse();
   }
@@ -431,5 +501,11 @@ class _$AuthenticatedWithInfoImpl
 }
 
 abstract class AuthenticatedWithInfo implements AuthState {
-  const factory AuthenticatedWithInfo() = _$AuthenticatedWithInfoImpl;
+  const factory AuthenticatedWithInfo(final AppUser appUser) =
+      _$AuthenticatedWithInfoImpl;
+
+  AppUser get appUser;
+  @JsonKey(ignore: true)
+  _$$AuthenticatedWithInfoImplCopyWith<_$AuthenticatedWithInfoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

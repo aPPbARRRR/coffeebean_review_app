@@ -25,15 +25,6 @@ GoRouter appRouter(Ref ref) {
         if (authState.value != null && state.matchedLocation == '/splash') {
           return '/home';
         }
-        // if (authState.value == AuthState.unAuthenticated()) {
-        //   return '/home';
-        // }
-        // if (authState.value == AuthState.authenticated()) {
-        //   return '/home';
-        // }
-        // if (authState.value == AuthState.authenticatedWithInfo()) {
-        //   return '/home';
-        // }
       },
       routes: [
         GoRoute(
@@ -55,7 +46,7 @@ GoRouter appRouter(Ref ref) {
                   name: AppRoutes.test_AuthenticatedUser,
                   builder: (context, state) => AuthenticatedUserScreen(),
                   redirect: (context, state) {
-                    if (authState.value == AuthState.unAuthenticated()) {
+                    if (authState.value is UnAuthenticated) {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text('인증이 필요합니다.')));
                       return '/home';
@@ -66,7 +57,7 @@ GoRouter appRouter(Ref ref) {
                 name: AppRoutes.test_hasInfodUser,
                 builder: (context, state) => HasInfoUserScreen(),
                 redirect: (context, state) {
-                  if (authState.value != AuthState.authenticatedWithInfo()) {
+                  if (authState.value is! AuthenticatedWithInfo) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('정보입력 완료 인증이 필요합니다.')));
                     return '/home';

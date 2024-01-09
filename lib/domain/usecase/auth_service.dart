@@ -6,12 +6,6 @@ import 'package:coffee_review_app/domain/repository/auth_repository.dart';
 
 import '../../presentation/providers/state/auth_state.dart';
 
-final authServiceProvider = Provider<AuthService>((ref) {
-  final authRepository = ref.watch(authRepositoryImplProvider);
-
-  return AuthServiceImpl(authRepository: authRepository);
-});
-
 abstract interface class AuthService {
   Future<AuthState> getAuth();
   Future<AuthState> signIn();

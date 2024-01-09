@@ -1,4 +1,5 @@
 import '../../presentation/providers/state/auth_state.dart';
+import '../model/app_user.dart';
 
 abstract interface class AuthRepository {
 // 현재 인증정보 가져오기
@@ -11,8 +12,8 @@ abstract interface class AuthRepository {
   // 휴대폰 인증번호로 인증
   Future<AuthState> signInWithPhoneNumber(String smsCode);
 
-  // 회원 정보 가져오기
-  // Future<String> fetchUserInfo(String uid);
+  // 회원정보 가져오기
+  Future<AppUser> fetchAppUserInfo(String uid);
   // Future<void> verifyPhoneNumber();
   // Future<void> signInWithPhoneNumber();
   // Future<void> signOut();

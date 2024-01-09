@@ -20,11 +20,14 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../domain/model/app_user.dart';
 part 'auth_state.freezed.dart';
 
 @freezed
-class AuthState with _$AuthState {
+abstract class AuthState with _$AuthState {
   const factory AuthState.unAuthenticated() = UnAuthenticated;
-  const factory AuthState.authenticated() = Authenticated;
-  const factory AuthState.authenticatedWithInfo() = AuthenticatedWithInfo;
+  const factory AuthState.authenticated(String uid) = Authenticated;
+  const factory AuthState.authenticatedWithInfo(AppUser appUser) =
+      AuthenticatedWithInfo;
 }
